@@ -1,0 +1,22 @@
+{
+  "name": "openai-whisper-api",
+  "main": "src/server/server.ts",
+  "devDependencies": {
+    "bun-types": "^0.6.12"
+  },
+  "description": "This is is a Node.js OpenAI microservice using Node.js / Bun.sh with Docker",
+  "engines": {
+    "node": "19"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "bun src/server/server.ts",
+    "build": "bun build ./src/**/*.ts --outdir ./dist --target bun --sourcemap=external --minify",
+    "start": "bun run build && bun run dist/server/server.js",
+    "lint": "eslint ./src --ext .js,ts"
+  },
+  "dependencies": {
+    "http-errors": "^2.0.0",
+    "openai": "^4.20.0"
+  }
+}

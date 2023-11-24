@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: bun
+    env: docker
+    repo: https://github.com/KevinArce/EmmAI-Bun
+    plan: starter
+    autoDeploy: false
