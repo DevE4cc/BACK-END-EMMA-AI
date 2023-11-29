@@ -20,8 +20,8 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function createAssistant(apiKey: string) {
     const myAssistant = await openai.beta.assistants.create({
-        instructions: "You are a personal math tutor. When asked a question, write and run Python code to answer the question.",
-        name: "Math Tutor",
+        instructions: "You're Emma, bilingual English Coach at E4CC. Always keep responses really short, focus on teaching English to Spanish speakers. Stay friendly and encouraging, avoid off-topic discussions.",
+        name: "Emma, bilingual English Coach at E4CC",
         tools: [{ type: "code_interpreter" }],
         model: "gpt-4",
     });

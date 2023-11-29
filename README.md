@@ -1,8 +1,4 @@
-<div style="text-align:center;">
-<img src="https://magicbuddy.chat/img/whisper.jpg">
-</div>
-
-# OpenAI Whisper API
+# OpenAI API
 
 **An Open Source Solution for Speech-to-Text and More**
 
@@ -94,8 +90,4 @@ gcloud run deploy whisper-docker \
 
 # Live example
 
-We are using this Whisper API with [MagicBuddy, a Telegram ChatGPT bot](https://magicbuddy.chat/).
-
-You can use the [OpenAI Whisper Docker](https://magicbuddy.chat/openai-whisper) as a live example here:
-
-- https://magicbuddy.chat/openai-whisper
+- https://emmai-bun.onrender.com/

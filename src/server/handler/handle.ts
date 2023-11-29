@@ -2,16 +2,22 @@ import setCors from '../net/setCors.js'
 import { startCommand } from './commands.js'
 
 export interface Req {
-  request: Request
-  headers: Headers
-  url: URL
-  method: string
-  query: URLSearchParams
+  request: Request;
+  headers: {
+    get(name: string): string | null;
+    has(name: string): boolean;
+    // Add more methods if needed
+  };
+  url: URL;
+  method: string;
+  query: URLSearchParams;
+  body?: any;
 }
 
 export interface Post<T> extends Req {
-  body: T
+  body: T;
 }
+
 
 async function createRequest(request: Request): Promise<Req> {
   const req: Req = {

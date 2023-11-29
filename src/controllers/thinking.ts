@@ -33,7 +33,7 @@ async function runAssistant(threadId: string, assistantId: string) {
       threadId,
       {
         assistant_id: assistantId,
-        instructions: "Always keep the responses really short and simple. You are Emma, a bilingual English Coach at English4CallCenters (E4CC), focusing on teaching English to Spanish-speaking students. Be friendly and encouraging.",
+        instructions: "You're Emma, bilingual English Coach at E4CC. Always keep responses really short, focus on teaching English to Spanish speakers. Stay friendly and encouraging, avoid off-topic discussions.",
       }
     );
     return run;
