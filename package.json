@@ -10,7 +10,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "bun src/server/server.ts",
+    "dev": "bun --inspect src/server/server.ts",
     "build": "bun build ./src/**/*.ts --outdir ./dist --target bun --sourcemap=external --minify",
     "start": "bun run build && bun run dist/server/server.js",
     "lint": "eslint ./src --ext .js,ts"
