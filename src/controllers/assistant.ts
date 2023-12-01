@@ -1,5 +1,6 @@
 import { Req } from '../server/handler/handle';
 import OpenAI from 'openai';
+import * as Sentry from "@sentry/bun";
 
 function getApiKey(req: Req) {
     if (process.env.OPENAI_KEY) {
@@ -30,13 +31,22 @@ async function createAssistant(apiKey: string) {
 }
 
 export default async function (req: Req) {
-    // get API Key from Authorization header or environment variable
-    const apiKey = getApiKey(req);
+    try {
+        // get API Key from Authorization header or environment variable
+        const apiKey = getApiKey(req);
 
-    // Create an assistant
-    const assistant = await createAssistant(apiKey);
-    console.log(assistant);
+        // Create an assistant
+        const assistant = await createAssistant(apiKey);
+        console.log(assistant);
 
-    // Return the created assistant details
-    return assistant;
+        // Return the created assistant details
+        return assistant;
+    } catch (error) {
+        // Log the error to Sentry
+        Sentry.captureException(error);
+
+        // You can also handle the error or return a specific response if needed
+        console.error(error);
+        throw error;
+    }
 }

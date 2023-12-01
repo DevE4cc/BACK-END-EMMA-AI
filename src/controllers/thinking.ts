@@ -1,5 +1,6 @@
 import { Post, Req } from '../server/handler/handle';
 import OpenAI from 'openai';
+import * as Sentry from "@sentry/bun";
 
 class HTTPException extends Error {
   status: number;
@@ -38,6 +39,9 @@ async function runAssistant(threadId: string, assistantId: string) {
     );
     return run;
   } catch (error) {
+    // Log the error to Sentry
+    Sentry.captureException(error);
+
     throw new HTTPException(500, `Error in run_assistant: ${error}`);
   }
 }
@@ -47,6 +51,9 @@ async function getStatus(threadId: string, runId: string) {
     const run = await openai.beta.threads.runs.retrieve(threadId, runId);
     return run.status;
   } catch (error) {
+    // Log the error to Sentry
+    Sentry.captureException(error);
+
     throw new HTTPException(500, `Error getting status: ${error}`);
   }
 }
@@ -80,6 +87,9 @@ async function getMessages(threadId: string) {
     return latestMessageText;
 
   } catch (error) {
+    // Log the error to Sentry
+    Sentry.captureException(error);
+
     throw new HTTPException(500, `Error getting messages: ${error}`);
   }
 }
@@ -124,6 +134,9 @@ export default async function (req: Post<{ text: string; assistantId: string; th
       // Handle known HTTP exceptions
       throw error;
     } else {
+      // Log the error to Sentry
+      Sentry.captureException(error);
+
       // Handle unknown errors
       console.error('Unexpected error:', error);
       throw new HTTPException(500, 'Internal Server Error');

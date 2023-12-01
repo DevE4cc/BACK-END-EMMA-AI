@@ -1,5 +1,6 @@
 import { Req } from '../server/handler/handle';
 import OpenAI from 'openai';
+import * as Sentry from "@sentry/bun";
 
 function getApiKey(req: Req) {
     if (process.env.OPENAI_KEY) {
@@ -17,18 +18,34 @@ function getApiKey(req: Req) {
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function createThread(apiKey: string) {
-    const emptyThread = await openai.beta.threads.create();
-    return emptyThread;
+    try {
+        const emptyThread = await openai.beta.threads.create();
+        return emptyThread;
+    } catch (error) {
+        // Log the error to Sentry
+        Sentry.captureException(error);
+
+        throw new Error(`Error creating thread: ${error}`);
+    }
 }
 
 export default async function (req: Req) {
-    // get API Key from Authorization header or environment variable
-    const apiKey = getApiKey(req);
+    try {
+        // get API Key from Authorization header or environment variable
+        const apiKey = getApiKey(req);
 
-    // Create a thread
-    const thread = await createThread(apiKey);
-    console.log(thread);
+        // Create a thread
+        const thread = await createThread(apiKey);
+        console.log(thread);
 
-    // Return the created thread details
-    return thread;
+        // Return the created thread details
+        return thread;
+    } catch (error) {
+        // Log the error to Sentry
+        Sentry.captureException(error);
+
+        // Handle unknown errors
+        console.error('Unexpected error:', error);
+        throw new Error('Internal Server Error');
+    }
 }

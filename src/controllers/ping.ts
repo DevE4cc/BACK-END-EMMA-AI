@@ -1,3 +1,9 @@
+import * as Sentry from "@sentry/bun";
+
 export default async function ping() {
-    return Date.now()
+    try {
+        return Date.now();
+    } catch (e) {
+        Sentry.captureException(e);
+    }
 }
