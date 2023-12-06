@@ -1,0 +1,4 @@
+// @bun
+var O=Object.create;var{defineProperty:G,getPrototypeOf:S,getOwnPropertyNames:T}=Object;var U=Object.prototype.hasOwnProperty;var _=(e,N,R)=>{R=e!=null?O(S(e)):{};const r=N||!e||!e.__esModule?G(R,"default",{value:e,enumerable:!0}):R;for(let C of T(e))if(!U.call(r,C))G(r,C,{get:()=>e[C],enumerable:!0});return r};var a=(e,N)=>()=>(N||e((N={exports:{}}).exports,N),N.exports);var b=(e)=>{return import.meta.require(e)};var d=(e,N)=>{for(var R in N)G(e,R,{get:N[R],enumerable:!0,configurable:!0,set:(r)=>N[R]=()=>r})};var A={MONGO_ATLAS_USER:"arce",MONGO_ATLAS_PASS:"f8NNwmWiTcs53eQR",MONGO_ATLAS_CLUSTER:"cluster0.qqc3zvl.mongodb.net",MONGO_ATLAS_DB:"e4cc",MONGODB_URI:""};A.MONGODB_URI=`mongodb+srv://${A.MONGO_ATLAS_USER}:${A.MONGO_ATLAS_PASS}@${A.MONGO_ATLAS_CLUSTER}/${A.MONGO_ATLAS_DB}?retryWrites=true&w=majority`;export{A as config};
+
+//# debugId=AD799E332C65EDDF64756e2164756e21

@@ -23,8 +23,8 @@ async function createAssistant(apiKey: string) {
     const myAssistant = await openai.beta.assistants.create({
         instructions: "You're Emma, bilingual English Coach at E4CC. Always keep responses really short, focus on teaching English to Spanish speakers. Stay friendly and encouraging, avoid off-topic discussions.",
         name: "Emma, bilingual English Coach at E4CC",
-        tools: [{ type: "code_interpreter" }],
-        model: "gpt-4",
+        // tools: [{ type: "code_interpreter" }],
+        model: "gpt-3.5-turbo",
     });
 
     return myAssistant;

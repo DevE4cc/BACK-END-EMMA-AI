@@ -1,6 +1,7 @@
 import { Req } from '../server/handler/handle';
 import OpenAI from 'openai';
 import * as Sentry from "@sentry/bun";
+import { ThreadModel } from '../models/threadModel';
 
 function getApiKey(req: Req) {
     if (process.env.OPENAI_KEY) {
@@ -19,7 +20,10 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function createThread(apiKey: string) {
     try {
+        // Create a thread in OpenAI
         const emptyThread = await openai.beta.threads.create();
+        console.log(emptyThread);
+
         return emptyThread;
     } catch (error) {
         // Log the error to Sentry
@@ -29,17 +33,42 @@ async function createThread(apiKey: string) {
     }
 }
 
+export const saveThreadToMongoDB = async (emptyThread: any) => {
+    try {
+        // Save the thread details in MongoDB using Mongoose
+        const threadData = {
+            threadId: emptyThread.id,
+            userId: '1', // Replace with the actual user ID
+        };
+
+        console.log('Saving thread to MongoDB:', threadData);
+
+        const createdThread = await ThreadModel.create(threadData);
+
+        return createdThread;
+    } catch (error) {
+        // Log the error to Sentry
+        Sentry.captureException(error);
+
+        throw new Error(`Error saving thread to MongoDB: ${error}`);
+    }
+};
+
 export default async function (req: Req) {
     try {
         // get API Key from Authorization header or environment variable
         const apiKey = getApiKey(req);
 
         // Create a thread
-        const thread = await createThread(apiKey);
-        console.log(thread);
+        const emptyThread = await createThread(apiKey);
+        console.log(emptyThread);
+
+        // Save the thread to MongoDB
+        const savedThread = await saveThreadToMongoDB(emptyThread);
+        console.log(savedThread);
 
         // Return the created thread details
-        return thread;
+        return savedThread;
     } catch (error) {
         // Log the error to Sentry
         Sentry.captureException(error);

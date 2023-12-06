@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "sources": ["../src/server/config.ts"],
+  "sourcesContent": [
+    "export interface Config {\n    MONGO_ATLAS_USER: string;\n    MONGO_ATLAS_PASS: string;\n    MONGO_ATLAS_CLUSTER: string;\n    MONGO_ATLAS_DB: string;\n    MONGODB_URI: string;\n}\n\nexport const config: Config = {\n    MONGO_ATLAS_USER: process.env.MONGO_ATLAS_USER || '',\n    MONGO_ATLAS_PASS: process.env.MONGO_ATLAS_PASS || '',\n    MONGO_ATLAS_CLUSTER: process.env.MONGO_ATLAS_CLUSTER || '',\n    MONGO_ATLAS_DB: process.env.MONGO_ATLAS_DB || '',\n    MONGODB_URI: \"\"\n};\n\nconfig.MONGODB_URI = `mongodb+srv://${config.MONGO_ATLAS_USER}:${config.MONGO_ATLAS_PASS}@${config.MONGO_ATLAS_CLUSTER}/${config.MONGO_ATLAS_DB}?retryWrites=true&w=majority`;\n"
+  ],
+  "mappings": ";AA/////fAQO,IAAM,EAAiB,CAC1B,iBAAkB,OAClB,iBAAkB,mBAClB,oBAAqB,+BACrB,eAAgB,OAChB,YAAa,EACjB,EAEA,EAAO,YAAc,iBAAiB,EAAO,oBAAoB,EAAO,oBAAoB,EAAO,uBAAuB,EAAO",
+  "debugId": "AD799E332C65EDDF64756e2164756e21",
+  "names": []
+}

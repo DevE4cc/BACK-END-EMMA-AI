@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "c751a9f0-6849-4da7-8e3f-ffc703ca4152",
+		"name": "Bun EmmAI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23757645"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"arce\",\r\n    \"email\": \"arcetechnologies@gmail.com\",\r\n    \"password\": \"securepassword\",\r\n    \"fullName\": \"Kevin Arce\",\r\n    \"bio\": \"A software developer\",\r\n    \"profilePicture\": \"https://avatars.githubusercontent.com/u/83199462?v=4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev-emmai-bun}}/register",
+							"host": [
+								"{{dev-emmai-bun}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"arcetechnologies@gmail.com\",\r\n    \"password\": \"securepassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev-emmai-bun}}/login",
+							"host": [
+								"{{dev-emmai-bun}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "E4CC - Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "X-API-KEY",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "6a2feb438ca21187e2dcf620102ee8014c8bd6e11ec2dcb89b8f9d720c83beda",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userStudent\": \"cpruebas630\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://e4cc-dev.com/API_E4CC/index.php/API/Login/cpruebas630",
+							"protocol": "https",
+							"host": [
+								"e4cc-dev",
+								"com"
+							],
+							"path": [
+								"API_E4CC",
+								"index.php",
+								"API",
+								"Login",
+								"cpruebas630"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assistant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{emmai-bun}}/assistant",
+					"host": [
+						"{{emmai-bun}}"
+					],
+					"path": [
+						"assistant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Thread",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{dev-emmai-bun}}/thread",
+					"host": [
+						"{{dev-emmai-bun}}"
+					],
+					"path": [
+						"thread"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Thinking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"assistantId\": \"asst_58ycCNLXhKnMf5wKd2nmxzV9\",\r\n    \"threadId\": \"thread_Rq7w6Yqkq9sYN4Iu0d1pwxWk\",\r\n    \"text\": \"Dame una serie de consejos respecto al aprendizaje del idioma inglés\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev-emmai-bun}}/thinking",
+					"host": [
+						"{{dev-emmai-bun}}"
+					],
+					"path": [
+						"thinking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sentry - Test",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{dev-emmai-bun}}/error",
+					"host": [
+						"{{dev-emmai-bun}}"
+					],
+					"path": [
+						"error"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

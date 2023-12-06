@@ -30,6 +30,8 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function runAssistant(threadId: string, assistantId: string) {
   try {
+
+    // console.log('Running assistant:', assistantId);
     const run = await openai.beta.threads.runs.create(
       threadId,
       {
@@ -37,6 +39,7 @@ async function runAssistant(threadId: string, assistantId: string) {
         instructions: "You're Emma, bilingual English Coach at E4CC. Always keep responses really short, focus on teaching English to Spanish speakers. Stay friendly and encouraging, avoid off-topic discussions.",
       }
     );
+    // console.log('Run created:', run);
     return run;
   } catch (error) {
     // Log the error to Sentry
@@ -49,6 +52,7 @@ async function runAssistant(threadId: string, assistantId: string) {
 async function getStatus(threadId: string, runId: string) {
   try {
     const run = await openai.beta.threads.runs.retrieve(threadId, runId);
+    // console.log('Run status:', run.status);
     return run.status;
   } catch (error) {
     // Log the error to Sentry
@@ -60,6 +64,7 @@ async function getStatus(threadId: string, runId: string) {
 
 async function getMessages(threadId: string) {
   try {
+    // console.log('Getting messages from thread:', threadId);
     const response = await openai.beta.threads.messages.list(threadId);
 
     if (!response.data || response.data.length === 0) {
@@ -84,6 +89,7 @@ async function getMessages(threadId: string) {
       })
       .join('\n');
 
+    // console.log('Latest message:', latestMessageText);
     return latestMessageText;
 
   } catch (error) {
