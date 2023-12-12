@@ -22,7 +22,9 @@ async function createThread(apiKey: string) {
     try {
         // Create a thread in OpenAI
         const emptyThread = await openai.beta.threads.create();
-        console.log(emptyThread);
+
+        // Return the created thread details
+        // console.log('Created thread:', emptyThread);
 
         return emptyThread;
     } catch (error) {
@@ -33,15 +35,18 @@ async function createThread(apiKey: string) {
     }
 }
 
-export const saveThreadToMongoDB = async (emptyThread: any) => {
+export const saveThreadToMongoDB = async (emptyThread: any, userStudent: string) => {
     try {
+        // Username of the user
+        // console.log('Creating thread for user:', userStudent);
+
         // Save the thread details in MongoDB using Mongoose
         const threadData = {
             threadId: emptyThread.id,
-            userId: '1', // Replace with the actual user ID
+            userStudent: userStudent,
         };
 
-        console.log('Saving thread to MongoDB:', threadData);
+        // console.log('Saving thread to MongoDB:', threadData);
 
         const createdThread = await ThreadModel.create(threadData);
 
@@ -59,13 +64,26 @@ export default async function (req: Req) {
         // get API Key from Authorization header or environment variable
         const apiKey = getApiKey(req);
 
+        // Get the userStudent from the request body
+        const userStudent = req.body.userStudent;
+
+        // If there is no userStudent, throw an error
+        if (!userStudent) {
+            // Log the error to Sentry
+            Sentry.captureException('Missing userStudent');
+            return new Response('Missing userStudent', { status: 400 });
+        }
+
+        // Username of the user
+        // console.log('Creating thread for user:', userStudent);
+
         // Create a thread
         const emptyThread = await createThread(apiKey);
-        console.log(emptyThread);
+        // console.log(emptyThread);
 
         // Save the thread to MongoDB
-        const savedThread = await saveThreadToMongoDB(emptyThread);
-        console.log(savedThread);
+        const savedThread = await saveThreadToMongoDB(emptyThread, userStudent);
+        // console.log(savedThread);
 
         // Return the created thread details
         return savedThread;
@@ -74,7 +92,7 @@ export default async function (req: Req) {
         Sentry.captureException(error);
 
         // Handle unknown errors
-        console.error('Unexpected error:', error);
+        // console.error('Unexpected error:', error);
         throw new Error('Internal Server Error');
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "openai-whisper-api",
+  "name": "emmai-bun",
   "main": "src/server/server.ts",
   "devDependencies": {
     "bun-types": "^0.6.12"
@@ -10,7 +10,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "bun src/server/server.ts",
+    "dev": "bun --watch src/server/server.ts",
     "build": "bun build ./src/**/*.ts --outdir ./dist --target bun --sourcemap=external --minify",
     "start": "bun run build && bun run dist/src/server/server.js",
     "lint": "eslint ./src --ext .js,ts"

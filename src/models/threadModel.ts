@@ -2,7 +2,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 interface IThread extends Document {
     threadId: string;
-    userId: string;
+    userStudent: string;
+    runId: string[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -10,7 +11,8 @@ interface IThread extends Document {
 const threadSchema = new Schema<IThread>(
     {
         threadId: { type: String, required: true },
-        userId: { type: String, required: true },
+        userStudent: { type: String, required: true },
+        runId: [{ type: String }],
         createdAt: { type: Date, default: Date.now, required: true },
         updatedAt: { type: Date, default: Date.now, required: true },
     },
