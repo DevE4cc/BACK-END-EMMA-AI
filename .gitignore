@@ -1,3 +1,5 @@
 gha-creds-*.json
+dist
 node_modules
 tmp
+.env

@@ -1,7 +1,14 @@
 import { Req } from '../server/handler/handle';
 import OpenAI from 'openai';
 import * as Sentry from "@sentry/bun";
-import { ThreadModel } from '../models/threadModel';
+import { ThreadModel, IThread } from '../models/threadModel';
+
+interface IThreadData {
+    threadId: string;
+    userStudent: string;
+    platform: string;
+    threadType: string;
+}
 
 function getApiKey(req: Req) {
     if (process.env.OPENAI_KEY) {
@@ -35,64 +42,31 @@ async function createThread(apiKey: string) {
     }
 }
 
-export const saveThreadToMongoDB = async (emptyThread: any, userStudent: string) => {
+async function saveThreadToMongoDB(threadData: IThreadData): Promise<IThread> {
     try {
-        // Username of the user
-        // console.log('Creating thread for user:', userStudent);
-
-        // Save the thread details in MongoDB using Mongoose
-        const threadData = {
-            threadId: emptyThread.id,
-            userStudent: userStudent,
-        };
-
-        // console.log('Saving thread to MongoDB:', threadData);
-
-        const createdThread = await ThreadModel.create(threadData);
-
-        return createdThread;
+        return await ThreadModel.create(threadData);
     } catch (error) {
-        // Log the error to Sentry
         Sentry.captureException(error);
-
         throw new Error(`Error saving thread to MongoDB: ${error}`);
     }
-};
-
-export default async function (req: Req) {
+}
+export default async function (req: Req): Promise<IThread> {
     try {
-        // get API Key from Authorization header or environment variable
         const apiKey = getApiKey(req);
+        const { userStudent, platform, threadType } = req.body;
+        if (!userStudent) throw new Error('Missing userStudent');
 
-        // Get the userStudent from the request body
-        const userStudent = req.body.userStudent;
-
-        // If there is no userStudent, throw an error
-        if (!userStudent) {
-            // Log the error to Sentry
-            Sentry.captureException('Missing userStudent');
-            return new Response('Missing userStudent', { status: 400 });
-        }
-
-        // Username of the user
-        // console.log('Creating thread for user:', userStudent);
-
-        // Create a thread
         const emptyThread = await createThread(apiKey);
-        // console.log(emptyThread);
+        const threadData: IThreadData = {
+            threadId: emptyThread.id,
+            userStudent,
+            platform,
+            threadType,
+        };
 
-        // Save the thread to MongoDB
-        const savedThread = await saveThreadToMongoDB(emptyThread, userStudent);
-        // console.log(savedThread);
-
-        // Return the created thread details
-        return savedThread;
+        return await saveThreadToMongoDB(threadData);
     } catch (error) {
-        // Log the error to Sentry
         Sentry.captureException(error);
-
-        // Handle unknown errors
-        // console.error('Unexpected error:', error);
         throw new Error('Internal Server Error');
     }
 }

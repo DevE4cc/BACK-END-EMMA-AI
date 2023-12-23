@@ -36,7 +36,10 @@ try {
     await connectToDatabase();
     console.log('Connected to MongoDB');
 
-    const server = serve({ fetch: handleRequest });
+    const server = serve({
+        // development: true,
+        fetch: handleRequest
+    });
 
     // Graceful shutdown
     process.on('SIGINT', async () => {
